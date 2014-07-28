@@ -289,7 +289,8 @@ Button s_aibutton = new Button("Scissor", 210,250,80,30, #000000, #666666);
 
 StateButton ai1_button = new StateButton(true, "AI1(Always Scissor)", 10, 310, 280, 30, #000000, #66ccff);
 StateButton ai2_button = new StateButton(false, "AI2(Random)", 10, 350, 280, 30, #000000, #66ccff);
-StateButton ai3_button = new StateButton(false, "AI3(Not Done)", 10, 390, 280, 30, #000000, #66ccff);
+StateButton ai3_button = new StateButton(false, "AI3(Always win)", 10, 390, 280, 30, #000000, #66ccff);
+StateButton ai4_button = new StateButton(false, "AI4(Real AI)", 10, 430, 280, 30, #000000, #66ccff);
 
 
 boolean began = false;
@@ -305,7 +306,7 @@ int userSel, aiSel;
 
 void setup()
 {
-  size(300,450);
+  size(300,480);
 }
 
 void display_result()
@@ -340,10 +341,12 @@ void display_result()
   }
 }
 
+// For AI4
+int[][] freq_map = {{0,0,0},{0,0,0},{0,0,0}};
+
 void play(int player)
 {
   began = true;
-  userSel = player;
   switch(AI)
   {
     case 1:
@@ -353,8 +356,23 @@ void play(int player)
       aiSel = (int)random(0,3);
       break;
     case 3:
+      aiSel = (player+1)%3;
+      break;
+    case 4:
+      // 'real' ai predicts your next move
+      freq_map[userSel][player]++;
+      int max=0; // The most possible move by user (calculated by previous patterns)
+      for(int i = 0; i != 3; i++)
+      {
+        if(freq_map[userSel][i]>freq_map[userSel][max])
+        {
+          max = i;
+        }
+      }
+      aiSel = (max+1)%3;
       break;
   }
+  userSel = player;
 }
 
 void draw()
@@ -385,6 +403,7 @@ void draw()
     ai1_button.selected=true;
     ai2_button.selected=false;
     ai3_button.selected=false;
+    ai4_button.selected=false;
   }
   if(ai2_button.hitTest()==CS_CLICK)
   {
@@ -392,6 +411,7 @@ void draw()
     ai1_button.selected=false;
     ai2_button.selected=true;
     ai3_button.selected=false;
+    ai4_button.selected=false;
   }
   if(ai3_button.hitTest()==CS_CLICK)
   {
@@ -399,10 +419,20 @@ void draw()
     ai1_button.selected=false;
     ai2_button.selected=false;
     ai3_button.selected=true;
+    ai4_button.selected=false;
+  }
+  if(ai4_button.hitTest()==CS_CLICK)
+  {
+    AI=4;
+    ai1_button.selected=false;
+    ai2_button.selected=false;
+    ai3_button.selected=false;
+    ai4_button.selected=true;
   }
   ai1_button.draw();
   ai2_button.draw();
   ai3_button.draw();
+  ai4_button.draw();
   display_result();
 //  text(mouseY,100,10);
 }
