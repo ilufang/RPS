@@ -182,7 +182,7 @@ class Button extends Control
     fill(fg);
     textSize(h/1.5);
     textAlign(CENTER, CENTER);
-    text(title, x, y, w, h);
+    text(title, x+w/2, y+h/2);
   }
 }
 
@@ -225,7 +225,7 @@ class StateButton extends Button
     fill(fg);
     textSize(h/1.5);
     textAlign(CENTER, CENTER);
-    text(title, x, y, w, h);
+    text(title, x+w/2, y+h/2);
   }
   int hitTest()
   {
