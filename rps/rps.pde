@@ -331,11 +331,11 @@ void display_result()
       text("It's a draw", 10, 100, 290, 90);
       break;
     case 1:
-      fill(#ff0000);
+      fill(#66cc21);
       text("You WIN!", 10, 100, 290, 90);
       break;
     case 2:
-      fill(#66cc21);
+      fill(#ff0000);
       text("Sorry, you lose.", 10, 100, 290, 90);
       break;
   }
